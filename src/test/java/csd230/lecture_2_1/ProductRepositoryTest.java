@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
+
     @Test
     void testSave() {
         Faker faker = new Faker();
@@ -41,10 +42,28 @@ class ProductRepositoryTest {
 
     @Test
     void findFirstByName() {
+        Product newProduct = new Product("appleone", "this is an apple", 12.34);
+        productRepository.save(newProduct);
+
+        Product product = productRepository.findFirstByName("appleone");;
+        assertNotNull(product);
     }
 
     @Test
     void findAllByName() {
+        Product newProduct = new Product("appleone", "this is an apple2", 14.34);
+        productRepository.save(newProduct);
+
+
+        Product newProduct2 = new Product("banana", "this is a banana", 22.34);
+        productRepository.save(newProduct2);
+
+
+        Product newProduct3 = new Product("banana", "this is a banana pie", 34.00);
+        productRepository.save(newProduct3);
+
+        var products = productRepository.findAllByName("banana");;
+        assertEquals(2, products.size());
     }
 }
 
